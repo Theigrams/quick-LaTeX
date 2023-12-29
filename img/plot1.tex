@@ -1,0 +1,16 @@
+\scalebox{1}{\begin{tikzpicture}
+    \begin{axis}[
+        title=Exmple using the mesh parameter,
+        hide axis,
+        colormap/cool,
+    ]
+    \addplot3[
+        mesh,
+        samples=30,
+        domain=-8:8,
+    ]
+    {sin(deg(sqrt(x^2+y^2)))/sqrt(x^2+y^2)};
+    \addlegendentry{$\frac{sin(r)}{r}$}
+    \end{axis}
+\end{tikzpicture}
+}
