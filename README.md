@@ -32,6 +32,8 @@ Quick-LaTeX 是一个为 LaTeX 初学者设计的简洁中文模板，旨在帮�
 
 4. **自定义**：根据需要，您可以通过修改 `quicklatex.sty` 文件来添加或修改预定义的宏包选项和自定义命令。
 
+5. **Overleaf**：您可以点击 [这里](https://www.overleaf.com/read/sjzyrjzvwmzm#cfc355) 在 Overleaf 上使用该模板，Overleaf 上的模板会自动与 GitHub 保持同步。
+
 ## 示例
 
 以下是一个使用 Quick-LaTeX 模板的简单 LaTeX 文档示例：
