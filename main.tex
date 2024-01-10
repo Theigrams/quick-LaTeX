@@ -109,26 +109,85 @@ P_{r-j}=\begin{cases}
 \newpage
 \subsection{算法伪代码}
 
-\begin{algorithm}[hbt!]
-    \caption{An algorithm with caption}\label{alg:two}
-    \KwData{$n \geq 0$}
-    \KwResult{$y = x^n$}
-    $y \gets 1$\;
-    $X \gets x$\;
-    $N \gets n$\;
-    \While{$N \neq 0$}{
-      \eIf{$N$ is even}{
-        $X \gets X \times X$\;
-        $N \gets \frac{N}{2}$\;
-        \tcp{This is a comment}
-      }{\If{$N$ is odd}{
-          $y \gets y \times X$\;
-          $N \gets N - 1$\;
-        }
-      }
+% \begin{algorithm}[hbt!]
+%     \caption{An algorithm with caption}\label{alg:two}
+%     \KwData{$n \geq 0$}
+%     \KwResult{$y = x^n$}
+%     $y \gets 1$\;
+%     $X \gets x$\;
+%     $N \gets n$\;
+%     \While{$N \neq 0$}{
+%       \eIf{$N$ is even}{
+%         $X \gets X \times X$\;
+%         $N \gets \frac{N}{2}$\;
+%         \tcp{This is a comment}
+%       }{\If{$N$ is odd}{
+%           $y \gets y \times X$\;
+%           $N \gets N - 1$\;
+%         }
+%       }
+%     }
+% \end{algorithm}
+
+算法~\ref{algo:improved-cem}来自~\cite{hansen2022TemporalDifferenceLearning}.
+\newcommand{\Method}{\textrm{iCEM}}
+\newcommand{\CEMMPC}{$\text{CEM}_{\text{MPC}}$}
+\newcommand{\newMPC}[1]{{\color{BrickRed} #1}}
+\newcommand{\newiCEM}[1]{{\color{MidnightBlue} #1}}
+\SetCommentSty{mycommfont}
+
+\begin{algorithm}
+  Parameters:
+
+  \quad $N$: number of samples; $h$: planning horizon; $K$: size of elite-set; $\beta$: colored-noise exponent\\
+  \quad \textit{CEM-iterations}: number of iterations; $\gamma$: reduction factor of samples, $\sigma_{init}$: noise strength
+
+  \For{t = 0 \textbf{to} T$-1$}{
+    \eIf{t == 0}{
+      $\mu_0$ $\leftarrow$ constant vector in $\mathbb{R}^{d\times h}$
+    }{
+      \newMPC{$\mu_t$ $\leftarrow$ shifted $\mu_{t-1}$ (and repeat last time-step)}
     }
+    $\sigma_t$ $\leftarrow$ constant vector in $\mathbb{R}^{d\times h}$ with values $\sigma_{init}$
+
+    \For{i = 0 \textbf{to} CEM-iterations$-1$}{
+      \newiCEM{$N_i$ $\leftarrow$ $\max(N \cdot \gamma^{-i}, 2\cdot K)$}
+
+      samples $\leftarrow N \textrm{ samples from } \mathcal{N}(\mu_t,\textrm{diag}(\sigma_t^2)) $  \tcp*{only CEM \& \CEMMPC}
+
+      \newiCEM{samples $\leftarrow$ $N_i$ samples from clip$(\mu_t + \mathcal{C}^\beta(d, h) \odot \sigma_t^2)$} \tcp*{only \Method}
+      % sample $pop\_size$ action sequences from $\mathcal{N}(\mu_t,diag(\sigma_t^2))$;
+
+      \newiCEM{\eIf{i == 0}{
+        add fraction of \textbf{shifted} elite-set$_{t-1}$ to samples
+      }{
+        add fraction of elite-set$_t$ to samples
+      }
+
+       \If{ i == last-iter}{
+         add mean to samples
+       }
+       }
+
+      costs $\leftarrow$ cost function $f(x)$ for $x$ in samples
+
+      elite-set$_t$ $\leftarrow$ best $K$ samples according to costs
+
+      $\mu_t$, $\sigma_t$ $\leftarrow$ fit Gaussian distribution to elite-set$_t$ \newMPC{with momentum}
+    }
+
+    execute action in first $\mu_t$ \tcp*{only CEM and \CEMMPC}
+
+    \newiCEM{execute first action of best elite sequence} \tcp*{only \Method}
+
+
+  }
+  \caption{Proposed \Method{} algorithm. Color \newiCEM{brown is \Method{}} and
+    \newMPC{blue is \CEMMPC{} and \Method}.}
+ \label{algo:improved-cem}
 \end{algorithm}
 
+\newpage
 \subsection{Tikz}
 \begin{figure}[h]
     \centering

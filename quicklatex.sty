@@ -7,7 +7,7 @@
 \usepackage{subcaption}     % 子图
 \usepackage{listings}       % 代码
 \usepackage{enumitem}       % 列表
-\usepackage[dvipsnames,svgnames]{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{array}
@@ -67,8 +67,9 @@
 % \usepackage{algorithm}
 % \usepackage{algpseudocode}
 
-\usepackage[ruled, lined, linesnumbered, commentsnumbered, longend]{algorithm2e}
-\newcommand\mycommfont[1]{\small\ttfamily\textcolor{blue}{#1}}
+\usepackage[ruled, vlined, linesnumbered, commentsnumbered, longend]{algorithm2e}
+% \newcommand\mycommfont[1]{\small\ttfamily\textcolor{blue}{#1}}
+\newcommand\mycommfont[1]{\small\textcolor{CadetBlue}{#1}}
 \SetCommentSty{mycommfont}
 
 %%%%%%%%%%%%%%%%%%% 设置代码格式 %%%%%%%%%%%%%%%%%%%
