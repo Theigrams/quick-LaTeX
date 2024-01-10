@@ -1,26 +1,27 @@
-name: Build LaTeX document
+name: Build and Release LaTeX document
 on: [push]
 jobs:
-  build_latex:
+  build_and_release:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
+
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
           latexmk_use_xelatex: true
+
       - name: Compress LaTeX code
-        run: |
-          # Create a compressed archive containing the specified files and directories
-          tar -czf latex_code.tar.gz code img main.tex quicklatex.sty ref.bib
+        run: zip -r latex_code.zip code img main.tex quicklatex.sty ref.bib
+
       - name: Set up Release
+        id: create_release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             main.pdf
-            latex_code.tar.gz
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ github.sha }}
-          release_name: Release ${{ github.sha }}
+            latex_code.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
