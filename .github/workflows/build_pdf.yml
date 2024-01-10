@@ -21,3 +21,6 @@ jobs:
           files: |
             main.pdf
             latex_code.tar.gz
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.sha }}
+          release_name: Release ${{ github.sha }}
