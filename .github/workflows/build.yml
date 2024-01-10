@@ -20,6 +20,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ steps.tag.outputs.tag }}
           files: |
             main.pdf
             latex_code.zip
