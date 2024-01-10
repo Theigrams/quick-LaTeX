@@ -16,11 +16,17 @@ jobs:
       - name: Compress LaTeX code
         run: zip -r latex_code.zip code img main.tex quicklatex.sty ref.bib
 
+      - name: Get Previous tag
+        id: previous_tag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+        with:
+          fallback: 1.0.0
+
       - name: Set up Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.sha }}
+          tag_name: ${{steps.previous_tag.outputs.tag}}
           files: |
             main.pdf
             latex_code.zip
