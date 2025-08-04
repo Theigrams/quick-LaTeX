@@ -18,7 +18,9 @@
 \usepackage{multirow}       % 合并单元格
 \usepackage{soul}           % 高亮
 \usepackage{lmodern}        % Latin Modern 数学字体
-
+\usepackage[authoryear,round,sort&compress]{natbib}
+% 设置页边距 
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
 
 %%%%%%%%%%%%%%%%%%% 自定义颜色 %%%%%%%%%%%%%%%%%%%
 \definecolor{cvprblue}{rgb}{0, 0.4, 0.7}
@@ -45,8 +47,9 @@
 
 %%%%%%%%%%%%%%%%%%% 参考文献格式 %%%%%%%%%%%%%%%%%%%
 % https://www.overleaf.com/learn/latex/Bibtex_bibliography_styles
-\bibliographystyle{ieeetr}
+% \bibliographystyle{ieeetr}
 % \bibliographystyle{unsrt}
+\bibliographystyle{plainnat}
 
 
 
